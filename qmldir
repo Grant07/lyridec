@@ -1,0 +1,5 @@
+singleton LyricsService 1.0 LyricsService.qml
+Lyridec 1.0 Lyridec.qml
+LyridecSettings 1.0 LyridecSettings.qml
+LyricsView 1.0 LyricsView.qml
+LyridecButton 1.0 LyridecButton.qml

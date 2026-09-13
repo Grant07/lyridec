@@ -1,0 +1,19 @@
+{
+  "id": "lyridec",
+  "name": "lyridec",
+  "description": "Synchronized Spotify lyrics with local LRC and text support.",
+  "version": "0.1.0",
+  "author": "Grant Mosha",
+  "type": "desktop",
+  "capabilities": [
+    "desktop-widget"
+  ],
+  "component": "./Lyridec.qml",
+  "settings": "./LyridecSettings.qml",
+  "icon": "lyrics",
+  "requires_dms": ">=1.5.3",
+  "permissions": [
+    "settings_read",
+    "settings_write"
+  ]
+}

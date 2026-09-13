@@ -1,6 +1,6 @@
 # Design and implementation
 
-lyridec is a native DMS desktop plugin. `Lyridec.qml` adapts shell settings and theme roles; `LyricsView.qml` contains the interface without DMS imports. A shared `LyricsService.qml` follows Spotify through MPRIS, resolves lyrics and owns persistent storage. `Lyrics.js` contains parsing and timing logic.
+lyridec is a native DMS desktop plugin. `src/Lyridec.qml` adapts shell settings and theme roles; `src/components/LyricsView.qml` contains the interface without DMS imports. A shared `src/services/LyricsService.qml` follows Spotify through MPRIS, resolves lyrics and owns persistent storage. `src/Lyrics.js` contains parsing and timing logic.
 
 ## Reading and interaction
 

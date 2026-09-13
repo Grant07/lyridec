@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run with dbus-run-session -- python3 tests/check-service.py.
+"""Run with dbus-run-session -- python3 tests/integration/check-service.py.
 
 Uses installed python-dbus/PyGObject. A private bus, local HTTP fixture, temporary
 library, and unmodified service logic isolate this check from the user's Spotify.
@@ -19,7 +19,7 @@ import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 PLAYER = "org.mpris.MediaPlayer2.Player"
 PROPERTIES = "org.freedesktop.DBus.Properties"
 requests = []
@@ -119,13 +119,14 @@ server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), LyricsHTTP)
 threading.Thread(target=server.serve_forever, daemon=True).start()
 with tempfile.TemporaryDirectory(prefix="lyridec-check-") as folder:
     target = Path(folder)
-    for name in ["Lyrics.js", "LyricsService.qml"]:
-        code = (ROOT / name).read_text()
+    (target / "services").mkdir()
+    for name in ["Lyrics.js", "services/LyricsService.qml"]:
+        code = (ROOT / "src" / name).read_text()
         if name.endswith(".qml"):
             code = code.replace("https://lrclib.net/api/", f"http://127.0.0.1:{server.server_port}/api/")
         (target / name).write_text(code)
-    (target / "qmldir").write_text("singleton LyricsService 1.0 LyricsService.qml\n")
-    (target / "shell.qml").write_text((ROOT / "tests/ServiceChecks.qml").read_text())
+    (target / "qmldir").write_text("singleton LyricsService 1.0 services/LyricsService.qml\n")
+    (target / "shell.qml").write_text((ROOT / "tests/integration/ServiceChecks.qml").read_text())
     (target / "import.lrc").write_text("[00:00]Imported words\n[00:02]Second line")
     env = dict(os.environ, QT_QPA_PLATFORM="offscreen", XDG_DATA_HOME=str(target / "data"),
                LYRIDEC_TEST_LRC=str(target / "import.lrc"))

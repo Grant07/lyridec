@@ -1,6 +1,6 @@
 import QtQuick
 import QtTest
-import ".." as Lyridec
+import "../../src/components" as Lyridec
 
 TestCase {
     id: test

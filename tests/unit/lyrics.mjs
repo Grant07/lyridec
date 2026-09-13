@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 
 const lyrics = vm.createContext({});
-vm.runInContext(fs.readFileSync(new URL('../Lyrics.js', import.meta.url), 'utf8'), lyrics);
+vm.runInContext(fs.readFileSync(new URL('../../src/Lyrics.js', import.meta.url), 'utf8'), lyrics);
 const plain = value => JSON.parse(JSON.stringify(value));
 const song = lyrics.parse('\uFEFF[ar:Test]\r\n[offset:100]\r\n[00:02.5]Second\n[00:00.10][00:05.000]First\n[00:03.00]\n[00:02.50]Translation');
 assert.deepEqual(plain(song), {synced: true, lines: [

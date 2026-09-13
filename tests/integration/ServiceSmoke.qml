@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import ".." as Lyridec
+import "../../src" as Lyridec
 
 ShellRoot {
     Component.onCompleted: Lyridec.LyricsService.clients++

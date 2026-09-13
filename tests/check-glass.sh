@@ -5,8 +5,8 @@ cd "$(dirname "$0")/.."
 test_dir=$(mktemp -d)
 trap 'rm -rf "$test_dir"' EXIT HUP INT TERM
 # Reproducible shipping shader, followed by actual GPU-rendered scenes.
-"$qt_bindir/qsb" --qt6 -o "$test_dir/glass.frag.qsb" shaders/glass.frag
-cmp shaders/glass.frag.qsb "$test_dir/glass.frag.qsb"
+"$qt_bindir/qsb" --qt6 -o "$test_dir/glass.frag.qsb" src/shaders/glass.frag
+cmp src/shaders/glass.frag.qsb "$test_dir/glass.frag.qsb"
 env -u WAYLAND_DISPLAY QT_QPA_PLATFORM=offscreen QT_QUICK_BACKEND=rhi \
     QSG_RHI_BACKEND=opengl LYRIDEC_REQUIRE_GPU=1 \
     LYRIDEC_CAPTURE_DIR="$test_dir" timeout 20 qs -p preview.qml --no-color

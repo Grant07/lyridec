@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import ".." as Lyridec
+import "../../src/components" as Lyridec
 
 // Synthetic lyric content; no network and no playback changes.
 ShellRoot {

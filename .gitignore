@@ -2,7 +2,6 @@
 tests/artifacts/
 /build/
 /pkg/
-/src/
 *.pkg.tar.*
 *.src.tar.*
 __pycache__/

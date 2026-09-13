@@ -5,7 +5,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import QtQuick.Effects
-import "Lyrics.js" as Lyrics
+import "."
+import "../Lyrics.js" as Lyrics
 
 Control {
     id: root
@@ -65,7 +66,7 @@ Control {
             readonly property real strength: root.backgroundOpacity
             readonly property real backdrop: root.backdropBlur ? 1 : 0
             readonly property real intensity: Math.max(0, Math.min(1, root.glassIntensity))
-            fragmentShader: "shaders/glass.frag.qsb"
+            fragmentShader: "../shaders/glass.frag.qsb"
         }
         Rectangle {
             anchors.fill: parent

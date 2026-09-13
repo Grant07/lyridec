@@ -14,7 +14,7 @@ Play a song in Spotify. lyridec finds its lyrics and follows the current line. W
 - **Change match:** open the header options, search, and select the right recording. The selection is saved for that Spotify track.
 - **Import:** choose a UTF-8 `.lrc` or `.txt` file from options. lyridec saves a copy for the recording selected when the file picker opened; it does not edit the original.
 - **Timing:** adjust in 0.1-second steps, up to ±10 seconds. Positive values show lyrics earlier. The offset is saved per recording.
-- **Appearance:** DMS widget settings provide layout, lyric size, background opacity, reduced motion, and idle visibility and glass intensity. DMS handles placement, resizing, display selection, and **Show on overlay** for keeping the widget above application windows.
+- **Appearance:** DMS widget settings provide layout, lyric size, background opacity, glass intensity, reduced motion, and idle visibility. DMS handles placement, resizing, display selection, and **Show on overlay** for keeping the widget above application windows.
 
 This is a lyrics display, with no playback transport, queue, library browser, or account management.
 
@@ -58,10 +58,10 @@ layer-rule {
 
 It preserves the rounded blur region requested by DMS and its blur preference. Niri 26.04 labels non-xray effects experimental: blur can disappear during window animations or tiled-window dragging, and costs more when underlying content changes. See [Niri window effects](https://niri-wm.github.io/niri/Window-Effects.html).
 
-The packaged shader is generated from `shaders/glass.frag` with Qt Shader Tools:
+The packaged shader is generated from `src/shaders/glass.frag` with Qt Shader Tools:
 
 ```sh
-/usr/lib/qt6/bin/qsb --qt6 -o shaders/glass.frag.qsb shaders/glass.frag
+/usr/lib/qt6/bin/qsb --qt6 -o src/shaders/glass.frag.qsb src/shaders/glass.frag
 ```
 
 ## Lyrics and storage
@@ -73,6 +73,30 @@ The library is `${XDG_DATA_HOME:-$HOME/.local/share}/lyridec/library.json`. It c
 Only recording metadata or a search you submit is sent to LRCLIB. Imported lyric files stay local. A 12-second request timeout, request spacing and `Retry-After` handling bound network work. Track changes invalidate older replies. The shared service stops following Spotify when the last widget instance closes.
 
 V1 reads ordinary LRC timestamps (including repeated timestamps, offsets and multiple languages) and plain text. Enhanced LRC word tags are read as line lyrics; word highlighting, other subtitle formats and other players are outside v1. Coverage and timing depend on the source.
+
+## Project layout
+
+```text
+plugin.json             DMS discovery and entry points
+src/
+  Lyridec.qml           DMS widget adapter
+  LyridecSettings.qml   DMS settings panel
+  Lyrics.js             Shared parsing and timing functions
+  qmldir                QML type and singleton registration
+  components/           Reusable view and controls
+  services/             Spotify, lyrics lookup and persistence
+  shaders/              Glass shader source and compiled bundle
+tests/
+  unit/                 Parser and view interaction checks
+  integration/          Isolated service checks and live smoke check
+  visual/               Synthetic preview and capture scenes
+  check-*.sh            Qt test runners
+docs/design.md          Design and implementation decisions
+preview.qml             Development-only Quickshell entry point
+Makefile                Build, checks and installation
+```
+
+DMS loads the paths in `plugin.json`; the adapter imports `components/` and uses the shared service registered in `src/qmldir`. Tests reuse those components and service. The preview entry point stays at the repository root so Quickshell can scan both `src/` and the test scenes within its configuration directory. Generated build output belongs in `build/`; captures belong in `tests/artifacts/`. Neither is installed or tracked.
 
 ## Checks
 
@@ -124,4 +148,4 @@ Use `PREFIX`, `SYSCONFDIR` and `DESTDIR` to adjust installation paths. The packa
 
 [MIT](LICENSE). The license covers lyridec's code; lyrics and artwork remain the property of their respective rights holders.
 
-See [DESIGN.md](DESIGN.md) for interface and implementation details.
+See [Design and implementation](docs/design.md) for interface and implementation details.

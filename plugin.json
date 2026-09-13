@@ -8,8 +8,8 @@
   "capabilities": [
     "desktop-widget"
   ],
-  "component": "./Lyridec.qml",
-  "settings": "./LyridecSettings.qml",
+  "component": "./src/Lyridec.qml",
+  "settings": "./src/LyridecSettings.qml",
   "icon": "lyrics",
   "requires_dms": ">=1.5.3",
   "permissions": [
